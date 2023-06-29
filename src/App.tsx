@@ -1,26 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Invoice from './Invoice';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className="App">
+			<Invoice options={{
+				invoicer: {
+					name: 'Peter Smith',
+					addressLines: [
+						'Redacted Something Drive',
+						'City',
+						'ABC1 DEF',
+					],
+					accountNumber: '1234567',
+					sortCode: '12-34-56',
+				},
+				invoiceeName: 'Peter Smith',
+				invoiceNumber: 101,
+				date: new Date(),
+				jobItems: [
+					'Fixed a fence post',
+					'Drilled some concrete',
+					'Disturbed some neighbours'
+				],
+				items: [
+					{
+						quantity: 10,
+						name: 'Labour',
+						unitPrice: 15
+					},
+					{
+						quantity: 1,
+						name: 'Tin 500ml smart ass paint',
+						unitPrice: 3.15
+					},
+				]
+			}} />
+		</div>
+	);
 }
 
 export default App;
