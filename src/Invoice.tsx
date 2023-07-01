@@ -110,7 +110,7 @@ function Invoice(props: IProps) {
                 <tbody>
                     <tr>
                         <th>Name</th>
-                        <p>{props.descriptor.invoicer.name}</p>
+                        <p>{props.descriptor.invoicer.bankAccountName}</p>
                     </tr>
                     <tr>
                         <th>Account No</th>
