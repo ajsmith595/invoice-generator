@@ -2,27 +2,31 @@
 
 interface Deets {
     name: string,
+    bankAccountName: string,
     addressLines: string[],
     accountNumber: string,
     sortCode: string
 }
 
 interface ItemDescription {
+    id?: string,
     name: string,
     quantity: number,
     unitPrice: number
 }
 
-interface IProps {
-    options: {
-        invoicer: Deets,
-        invoiceeName: string,
+export interface InvoiceDescriptor {
+    invoicer: Deets,
+    invoiceeName: string,
 
-        invoiceNumber: number,
-        date: Date,
-        jobItems: string[],
-        items: ItemDescription[]
-    }
+    invoiceNumber: number,
+    date: Date,
+    jobItems: string[],
+    items: ItemDescription[]
+}
+
+interface IProps {
+    descriptor: InvoiceDescriptor
 }
 
 function displayDeets(deets: Deets) {
@@ -53,30 +57,30 @@ function generateItemRow(item: ItemDescription) {
 
 function Invoice(props: IProps) {
     let total = 0;
-    for (const item of props.options.items) {
+    for (const item of props.descriptor.items) {
         total += item.quantity * item.unitPrice;
     }
     return (
         <div>
-            <h1 className='text-3xl font-bold'>Invoice #{props.options.invoiceNumber}</h1>
+            <h1 className='text-3xl font-bold'>Invoice #{props.descriptor.invoiceNumber}</h1>
 
             <div className="grid grid-cols-2 ">
                 <div>
-                    {displayDeets(props.options.invoicer)}
+                    {displayDeets(props.descriptor.invoicer)}
                 </div>
                 <div className="ml-auto mr-5 grid grid-cols-2">
                     <span className="font-bold">Name </span>
-                    <p>{props.options.invoiceeName}</p>
+                    <p>{props.descriptor.invoiceeName}</p>
                     <span className="font-bold">Invoice # </span>
-                    <p>{props.options.invoiceNumber}</p>
+                    <p>{props.descriptor.invoiceNumber}</p>
                     <span className="font-bold">Date </span>
-                    <p>{props.options.date.toLocaleDateString()}</p>
+                    <p>{props.descriptor.date.toLocaleDateString()}</p>
                 </div>
             </div>
             <br />
             <p className="font-bold text-xl">Job Description</p>
             <ul className="list-disc list-inside">
-                {props.options.jobItems.map((e, i) => <li key={i}>{e}</li>)}
+                {props.descriptor.jobItems.map((e, i) => <li key={i}>{e}</li>)}
             </ul>
 
             <table className={`border-collapse ${border} table-fixed w-full`}>
@@ -89,7 +93,7 @@ function Invoice(props: IProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.options.items.map(e => generateItemRow(e))}
+                    {props.descriptor.items.map(e => generateItemRow(e))}
                 </tbody>
             </table>
             <hr className={`${border} opacity-10 my-3`} />
@@ -106,15 +110,15 @@ function Invoice(props: IProps) {
                 <tbody>
                     <tr>
                         <th>Name</th>
-                        <p>{props.options.invoicer.name}</p>
+                        <p>{props.descriptor.invoicer.name}</p>
                     </tr>
                     <tr>
                         <th>Account No</th>
-                        <p>{props.options.invoicer.accountNumber}</p>
+                        <p>{props.descriptor.invoicer.accountNumber}</p>
                     </tr>
                     <tr>
                         <th>Sort Code</th>
-                        <p>{props.options.invoicer.sortCode}</p>
+                        <p>{props.descriptor.invoicer.sortCode}</p>
                     </tr>
                 </tbody>
             </table>
