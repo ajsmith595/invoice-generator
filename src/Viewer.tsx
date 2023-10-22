@@ -1,36 +1,33 @@
 import { useRef } from 'react';
-import Invoice, { InvoiceDescriptor } from './Invoice';
 import { Button } from './Common';
-import { saveDetails } from './Form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useFirebase } from './utils/firebaseContext';
+import Invoice from './Invoice';
 
-interface IProps {
-    descriptor: InvoiceDescriptor;
-    viewSwitchFunction: () => void;
-}
-
-function Viewer(props: IProps) {
-
+function Viewer() {
     const invoiceRef = useRef<HTMLDivElement>(null);
 
+    const { invoices } = useFirebase();
+    const { id } = useParams();
+    const descriptor = invoices?.find(e => e.id === id);
+    const navigate = useNavigate();
     const printPdf = () => {
         if (invoiceRef.current) {
-            saveDetails({
-                ...props.descriptor,
-                invoiceNumber: props.descriptor.invoiceNumber + 1
-            })
             window.print();
         }
     };
 
+
+    if (!descriptor) return <></>;
+
     return (
         <>
             <div ref={invoiceRef}>
-                <Invoice descriptor={props.descriptor} />
+                <Invoice descriptor={descriptor} />
             </div>
 
             <div className='exclude-printing'>
                 <Button onClick={printPdf}>Print as PDF</Button>
-                <Button onClick={props.viewSwitchFunction}>Back</Button>
             </div>
         </>
     );

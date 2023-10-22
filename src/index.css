@@ -16,6 +16,20 @@ code {
     monospace;
 }
 
+.invoice-grid-highlight>* {
+  border-top: #aaa solid 1px;
+  border-bottom: #aaa solid 1px;
+}
+
+.invoice-grid-highlight>*:nth-child(12n+1),
+.invoice-grid-highlight>*:nth-child(12n+2),
+.invoice-grid-highlight>*:nth-child(12n+3),
+.invoice-grid-highlight>*:nth-child(12n+4),
+.invoice-grid-highlight>*:nth-child(12n+5),
+.invoice-grid-highlight>*:nth-child(12n+6) {
+  background-color: #eee;
+}
+
 @media print {
   @page {
     margin: 0;
@@ -27,5 +41,10 @@ code {
 
   .exclude-printing {
     display: none !important;
+  }
+
+  .div-wrapper {
+    width: 100%;
+    margin: 0;
   }
 }

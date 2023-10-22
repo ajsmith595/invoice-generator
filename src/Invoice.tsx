@@ -1,38 +1,14 @@
-
-
-interface Deets {
-    name: string,
-    bankAccountName: string,
-    addressLines: string[],
-    accountNumber: string,
-    sortCode: string
-}
-
-interface ItemDescription {
-    id?: string,
-    name: string,
-    quantity: number,
-    unitPrice: number
-}
-
-export interface InvoiceDescriptor {
-    invoicer: Deets,
-    invoiceeName: string,
-
-    invoiceNumber: number,
-    date: Date,
-    jobItems: string[],
-    items: ItemDescription[]
-}
+import { InvoiceDescriptor, ItemDescription } from "./utils/invoice";
+import { LocalStorageData, getLocalData } from "./utils/localStorage";
 
 interface IProps {
     descriptor: InvoiceDescriptor
 }
 
-function displayDeets(deets: Deets) {
+function displayDeets(deets: LocalStorageData) {
     const x = [];
-    x.push(<p>{deets.name}</p>);
-    for (const line of deets.addressLines) {
+    x.push(<p key='name-line'>{deets.name}</p>);
+    for (const line of deets.address) {
         x.push(<p key={line}>{line}</p>)
     }
     return x;
@@ -46,7 +22,7 @@ const formatter = new Intl.NumberFormat('en-GB', {
 });
 function generateItemRow(item: ItemDescription) {
     return (
-        <tr>
+        <tr key={item.id}>
             <td className={`${border}`}>{item.name}</td>
             <td className={`${border}`}>{item.quantity}</td>
             <td className={`${border}`}>{formatter.format(item.unitPrice)}</td>
@@ -60,13 +36,14 @@ function Invoice(props: IProps) {
     for (const item of props.descriptor.items) {
         total += item.quantity * item.unitPrice;
     }
+    const localDetails = getLocalData();
     return (
         <div>
             <h1 className='text-3xl font-bold'>Invoice #{props.descriptor.invoiceNumber}</h1>
 
             <div className="grid grid-cols-2 ">
                 <div>
-                    {displayDeets(props.descriptor.invoicer)}
+                    {displayDeets(localDetails)}
                 </div>
                 <div className="ml-auto mr-5 grid grid-cols-2">
                     <span className="font-bold">Name </span>
@@ -74,7 +51,7 @@ function Invoice(props: IProps) {
                     <span className="font-bold">Invoice # </span>
                     <p>{props.descriptor.invoiceNumber}</p>
                     <span className="font-bold">Date </span>
-                    <p>{props.descriptor.date.toLocaleDateString()}</p>
+                    <p>{props.descriptor.date.toDate().toLocaleDateString()}</p>
                 </div>
             </div>
             <br />
@@ -102,7 +79,7 @@ function Invoice(props: IProps) {
                 </div>
                 <div className="ml-auto mr-5 grid grid-cols-2 font-bold text-xl">
                     <p className="underline">TOTAL:</p>
-                    <p>{formatter.format(total)}</p>
+                    <p>&nbsp;{formatter.format(total)}</p>
                 </div>
             </div>
             <p className="text-lg font-bold">Account Details</p>
@@ -110,15 +87,15 @@ function Invoice(props: IProps) {
                 <tbody>
                     <tr>
                         <th>Name</th>
-                        <p>{props.descriptor.invoicer.bankAccountName}</p>
+                        <td>{localDetails.bankDetails.name}</td>
                     </tr>
                     <tr>
                         <th>Account No</th>
-                        <p>{props.descriptor.invoicer.accountNumber}</p>
+                        <td>{localDetails.bankDetails.accountNumber}</td>
                     </tr>
                     <tr>
                         <th>Sort Code</th>
-                        <p>{props.descriptor.invoicer.sortCode}</p>
+                        <td>{localDetails.bankDetails.sortCode}</td>
                     </tr>
                 </tbody>
             </table>
