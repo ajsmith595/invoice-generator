@@ -1,3 +1,5 @@
+import React from "react";
+
 interface IProps extends React.PropsWithChildren {
     onClick?: React.MouseEventHandler<HTMLButtonElement>,
     className?: string,
@@ -50,13 +52,17 @@ function Button({ children, onClick, className = '', variant = 'neutral', disabl
         </button>
     );
 }
-function Input(props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-) {
+function Input<T = HTMLInputElement, S extends React.HTMLAttributes<T> = React.InputHTMLAttributes<T>>(props: React.DetailedHTMLProps<S, T>) {
     const inputClass = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
-    return <input
-        {...props}
-        className={`${inputClass} ${props.className || ''}`}
-    />
+    const inputType = (props as any).type === 'textarea' ? 'textarea' : 'input';
+    const newProps = {
+        ...props,
+        className: `${inputClass} ${(props.className ?? '')}`
+    } as any;
+    if (inputType === 'textarea') {
+        newProps.rows = newProps.rows || 4;
+    }
+    return React.createElement<S>(inputType, newProps);
 }
 function Title(props: React.PropsWithChildren) {
     return <h1 className='text-3xl my-3'>{props.children}</h1>

@@ -160,6 +160,13 @@ function Form() {
                     }}>Add New</Button>
                 </div>
                 {items}
+                <hr className='my-3 col-span-2' />
+
+                <h2 className='text-xl col-span-2'>Labour</h2>
+                <div className='col-span-2 grid grid-cols-3'>
+                    {createInput('Labour Description', '1 day @ £100 / day + 2 hrs @ £50 / hr ', 'labourDescription', 'textarea', 'col-span-2')}
+                    {createInput('Labour Total', '142.82', 'labourTotal', 'number')}
+                </div>
 
                 <hr className='my-3 col-span-2' />
                 <Button disabled={saving} className='col-span-2 py-4' onClick={() => {

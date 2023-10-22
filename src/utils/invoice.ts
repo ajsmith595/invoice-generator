@@ -15,7 +15,10 @@ export interface InvoiceDescriptor {
     invoiceNumber: number,
     date: Timestamp,
     jobItems: string[],
-    items: ItemDescription[]
+    items: ItemDescription[],
+
+    labourDescription: string,
+    labourTotal: number,
 }
 
 export function randomString(length = 32) {
@@ -44,6 +47,8 @@ export function getDefaultDescriptor(currentInvoices: InvoiceDescriptor[]): Omit
             quantity: 1,
             unitPrice: 0.00
         }],
-        jobItems: ['']
+        jobItems: [''],
+        labourDescription: '',
+        labourTotal: 0,
     }
 }

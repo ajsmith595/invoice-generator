@@ -47,7 +47,7 @@ function Home() {
             <Modal isOpen={deletionId !== null} style={{
                 content: {
                     top: '40%',
-                    height: '10%',
+                    height: '15%',
                     left: '40%',
                     width: '20%',
                 }
