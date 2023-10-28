@@ -4,9 +4,10 @@ interface IProps extends React.PropsWithChildren {
     onClick?: React.MouseEventHandler<HTMLButtonElement>,
     className?: string,
     variant?: 'neutral' | 'danger' | 'success' | 'submit' | 'blank',
-    disabled?: boolean
+    disabled?: boolean,
+    tabIndex?: number,
 }
-function Button({ children, onClick, className = '', variant = 'neutral', disabled = false }: IProps) {
+function Button({ children, onClick, className = '', variant = 'neutral', disabled = false, tabIndex }: IProps) {
     let colourFrom, hoverColour, textColour = 'text-white';
     switch (variant) {
         case 'danger': {
@@ -47,7 +48,7 @@ function Button({ children, onClick, className = '', variant = 'neutral', disabl
     return (
         <button
             className={`inline-block mx-1 ${colourFrom} ${hoverColour} transition-all px-2 ${textColour} rounded ${className}`}
-            onClick={onClick} disabled={disabled}>
+            onClick={onClick} disabled={disabled} tabIndex={tabIndex}>
             {children}
         </button>
     );
@@ -61,6 +62,14 @@ function Input<T = HTMLInputElement, S extends React.HTMLAttributes<T> = React.I
     } as any;
     if (inputType === 'textarea') {
         newProps.rows = newProps.rows || 4;
+    } else if ('type' in props && props.type === 'number') {
+        newProps.onChange = (e: any) => {
+            if (Number(e.target.value) >= 1) {
+                e.target.value = e.target.value.replace(/^[ 0]+/g, '');
+            }
+            props.onChange?.(e);
+        }
+
     }
     return React.createElement<S>(inputType, newProps);
 }

@@ -35,8 +35,6 @@ export function getDefaultDescriptor(currentInvoices: InvoiceDescriptor[]): Omit
         (prev, current) => Math.max(prev, Number(current.invoiceNumber) || 0),
         0
     ) + 1;
-    console.log(currentInvoices);
-    console.log('Next invoice number: ' + nextInvoiceNumber);
     return {
         invoiceeName: '',
         date: Timestamp.now(),

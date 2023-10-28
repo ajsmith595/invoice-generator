@@ -57,10 +57,9 @@ function Invoice(props: IProps) {
             </div>
             <br />
             <p className="font-bold text-xl">Job Description</p>
-            <ul className="list-disc list-inside">
+            <ul className="list-disc list-inside mb-6">
                 {props.descriptor.jobItems.map((e, i) => <li key={i}>{e}</li>)}
             </ul>
-
             <table className={`border-collapse ${border} table-fixed w-full`}>
                 <thead>
                     <tr>

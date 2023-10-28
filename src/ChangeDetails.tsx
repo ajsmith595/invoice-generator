@@ -32,7 +32,7 @@ export function ChangeDetails() {
                     const newArray = [...currentArray]
                     newArray.splice(i, 1);
                     setArray(newArray);
-                }}>Delete</Button>
+                }} tabIndex={-1}>Delete</Button>
                 <Button variant='submit' className="inline-block" onClick={() => {
                     if (i === 0) return;
                     const newArray = [...currentArray];
@@ -40,7 +40,7 @@ export function ChangeDetails() {
                     newArray[i - 1] = newArray[i];
                     newArray[i] = old;
                     setArray(newArray);
-                }}>Up</Button>
+                }} tabIndex={-1}>Up</Button>
                 <Button variant='submit' className="inline-block" onClick={() => {
                     if (i === currentArray.length - 1) return;
                     const newArray = [...currentArray];
@@ -48,7 +48,7 @@ export function ChangeDetails() {
                     newArray[i + 1] = newArray[i];
                     newArray[i] = old;
                     setArray(newArray);
-                }}>Down</Button>
+                }} tabIndex={-1}>Down</Button>
                 {generateFn(i)}
             </div>);
         }
@@ -76,20 +76,20 @@ export function ChangeDetails() {
                 {createInput('bankDetails.sortCode')}
             </div>
             <div>
-                <label>Address Lines</label>
-                <div>
-                    <Button variant="success" onClick={() => setDetails({ ...details, address: [...details.address, ''] })}>Add</Button>
+                <div className='my-1 col-span-2'>
+                    <label>Address Lines</label>
+                    <Button className='float-right inline-block' variant="success" onClick={() => setDetails({ ...details, address: [...details.address, ''] })} tabIndex={-1}>Add New</Button>
                 </div>
                 {arrayHandler(
                     details.address,
                     (newAddress) => setDetails({ ...details, address: newAddress }),
                     (i) => <Input
+                        autoFocus
                         value={details.address[i]}
                         onChange={(e) => {
                             const newArray = [...details.address];
                             newArray[i] = e.target.value;
                             setDetails({ ...details, address: newArray })
-
                         }} />
                 )}
             </div>

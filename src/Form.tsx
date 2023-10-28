@@ -37,7 +37,7 @@ function Form() {
 
 
 
-    const createInput = (label: string | null, placeholder: string, path: string, type: string = 'text', className = '') => {
+    const createInput = (label: string | null, placeholder: string, path: string, type: string = 'text', className = '', focusOnInstantiation = false) => {
         const onChange = (newValue: any) => {
             const newDescriptor = _.set(descriptor, path, newValue);
             saveDescriptor({ ...newDescriptor });
@@ -47,6 +47,7 @@ function Form() {
         if (type === 'date') {
             const realValue: Date = _.get(descriptor, path).toDate();
             input = <Input
+                autoFocus={focusOnInstantiation}
                 type={type}
                 placeholder={placeholder}
                 onChange={(e) => {
@@ -58,6 +59,7 @@ function Form() {
             resetButton = <Button className="float-right" onClick={() => onChange(Timestamp.now())}>Today</Button>;
         } else {
             input = <Input
+                autoFocus={focusOnInstantiation}
                 type={type}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
@@ -86,7 +88,7 @@ function Form() {
                 <Button variant='danger' className="inline-block" onClick={() => {
                     arr.splice(i, 1);
                     saveDescriptor({ ...descriptor });
-                }}>Delete</Button>
+                }} tabIndex={-1}>Delete</Button>
                 <Button variant='submit' className="inline-block" onClick={() => {
                     if (i === 0) return;
                     const old = arr[i - 1];
@@ -94,7 +96,7 @@ function Form() {
                     arr[i] = old;
                     _.set(descriptor, arrayPath, arr);
                     saveDescriptor({ ...descriptor });
-                }}>Up</Button>
+                }} tabIndex={-1}>Up</Button>
                 <Button variant='submit' className="inline-block" onClick={() => {
                     if (i === arr.length - 1) return;
                     const old = arr[i + 1];
@@ -102,7 +104,7 @@ function Form() {
                     arr[i] = old;
                     _.set(descriptor, arrayPath, arr);
                     saveDescriptor({ ...descriptor });
-                }}>Down</Button>
+                }} tabIndex={-1}>Down</Button>
                 {generateFn(i)}
             </div>);
         }
@@ -110,13 +112,13 @@ function Form() {
 
     arrayHandler('jobItems', jobItems, (i) => {
         return <>
-            {createInput(null, 'Mowed the lawn', `jobItems[${i}]`, 'text', 'flex-grow')}
+            {createInput(null, 'Mowed the lawn', `jobItems[${i}]`, 'text', 'flex-grow', true)}
         </>;
     });
 
     arrayHandler('items', items, (i) => {
         return <>
-            {createInput('Item', 'Paint 500ml', `items[${i}].name`, 'text', 'flex-grow')}
+            {createInput('Item', 'Paint 500ml', `items[${i}].name`, 'text', 'flex-grow', true)}
             {createInput('Quantity', '1', `items[${i}].quantity`, 'number', 'flex-grow')}
             {createInput('Unit Price', '4.99', `items[${i}].unitPrice`, 'number', 'flex-grow')}
         </>;
@@ -139,7 +141,7 @@ function Form() {
                             descriptor.jobItems.push('');
                             saveDescriptor({ ...descriptor });
                         }
-                    }}>Add New</Button>
+                    }} tabIndex={-1}>Add New</Button>
                 </div>
                 {jobItems}
 
@@ -157,7 +159,7 @@ function Form() {
                             });
                             saveDescriptor({ ...descriptor });
                         }
-                    }}>Add New</Button>
+                    }} tabIndex={-1}>Add New</Button>
                 </div>
                 {items}
                 <hr className='my-3 col-span-2' />
