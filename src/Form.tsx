@@ -166,8 +166,8 @@ function Form() {
 
                 <h2 className='text-xl col-span-2'>Labour</h2>
                 <div className='col-span-2 grid grid-cols-3'>
-                    {createInput('Labour Description', '1 day @ £100 / day + 2 hrs @ £50 / hr ', 'labourDescription', 'textarea', 'col-span-2')}
-                    {createInput('Labour Total', '142.82', 'labourTotal', 'number')}
+                    {createInput('Labour Description', 'Description/explanation of labour charges', 'labourDescription', 'textarea', 'col-span-2')}
+                    {createInput('Labour Total', 'Total labour charge as a number', 'labourTotal', 'number')}
                 </div>
 
                 <hr className='my-3 col-span-2' />
